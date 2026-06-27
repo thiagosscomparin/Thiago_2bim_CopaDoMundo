@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Classificação - Copa do Mundo 2026</title>
+    <link rel="stylesheet" href="class.css">
+</head>
+<body>
+
+    <header>
+        <h1>🏆 Classificação por Grupo</h1>
+        <nav>
+            <a href="index.html">Início</a>
+        </nav>
+    </header>
+
+    <main>
+        <button onclick="calcularClassificacao()">Calcular Classificação</button>
+        <div id="resultadoClassificacao"></div>
+    </main>
+
+    <footer>
+        <p>Desenvolvido por Thiago da Silva Scomparin</p>
+    </footer>
+
+    <script>
+        const enderecoServidor = 'localhost';
+        const porta = '3001';
+
+        async function calcularClassificacao() {
+            try {
+                const respSelecoes = await fetch(`http://${enderecoServidor}:${porta}/selecoes`);
+                const dataSelecoes = await respSelecoes.json();
+
+                const respPartidas = await fetch(`http://${enderecoServidor}:${porta}/partidas`);
+                const dataPartidas = await respPartidas.json();
+
+                let tabela = {};
+                dataSelecoes.selecoes.forEach(selecao => {
+                    tabela[selecao.nome_selecao] = {
+                        grupo: selecao.grupo,
+                        pontos: 0,
+                        vitorias: 0,
+                        empates: 0,
+                        derrotas: 0,
+                        golsPro: 0,
+                        golsContra: 0
+                    };
+                });
+
+                dataPartidas.partidas.forEach(partida => {
+                    const casa = tabela[partida.time_casa];
+                    const fora = tabela[partida.time_fora];
+
+                    casa.golsPro += partida.gols_casa;
+                    casa.golsContra += partida.gols_fora;
+                    fora.golsPro += partida.gols_fora;
+                    fora.golsContra += partida.gols_casa;
+
+                    if (partida.gols_casa > partida.gols_fora) {
+                        casa.pontos += 3;
+                        casa.vitorias += 1;
+                        fora.derrotas += 1;
+                    } else if (partida.gols_fora > partida.gols_casa) {
+                        fora.pontos += 3;
+                        fora.vitorias += 1;
+                        casa.derrotas += 1;
+                    } else {
+                        casa.pontos += 1;
+                        fora.pontos += 1;
+                        casa.empates += 1;
+                        fora.empates += 1;
+                    }
+                });
+
+                let html = '';
+                const grupos = ['A','B','C','D','E','F','G','H','I','J','K','L'];
+
+                grupos.forEach(grupo => {
+                    const timesDoGrupo = Object.entries(tabela)
+                        .filter(([nome, dados]) => dados.grupo === grupo)
+                        .sort((a, b) => b[1].pontos - a[1].pontos || (b[1].golsPro - b[1].golsContra) - (a[1].golsPro - a[1].golsContra));
+
+                    if (timesDoGrupo.length === 0) return;
+
+                    html += `<h3>Grupo ${grupo}</h3><table>
+                        <tr><th>Seleção</th><th>Pontos</th><th>V</th><th>E</th><th>D</th><th>Saldo de Gols</th></tr>`;
+
+                    timesDoGrupo.forEach(([nome, dados]) => {
+                        html += `<tr>
+                            <td>${nome}</td>
+                            <td>${dados.pontos}</td>
+                            <td>${dados.vitorias}</td>
+                            <td>${dados.empates}</td>
+                            <td>${dados.derrotas}</td>
+                            <td>${dados.golsPro - dados.golsContra}</td>
+                        </tr>`;
+                    });
+
+                    html += '</table>';
+                });
+
+                document.getElementById('resultadoClassificacao').innerHTML = html;
+
+            } catch (error) {
+                console.error('Erro ao calcular classificação:', error);
+                document.getElementById('resultadoClassificacao').innerHTML = '<p>Erro ao calcular classificação.</p>';
+            }
+        }
+    </script>
+
+</body>
+</html>

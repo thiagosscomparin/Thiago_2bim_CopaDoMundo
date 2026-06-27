@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel da Copa do Mundo 2026</title>
+    <link rel="stylesheet" href="jogos.css">
+</head>
+<body>
+
+    <header>
+        <h1> Painel da Copa do Mundo 2026</h1>
+        <nav>
+            <a href="index.html">Voltar para a página inicial</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="secao-selecoes">
+            <label for="filtroGrupo">Filtrar por grupo:</label>
+<select id="filtroGrupo">
+    <option value="">Selecione...</option>
+    <option value="A">A</option>
+    <option value="B">B</option>
+    <option value="C">C</option>
+    <option value="D">D</option>
+    <option value="E">E</option>
+    <option value="F">F</option>
+    <option value="G">G</option>
+    <option value="H">H</option>
+    <option value="I">I</option>
+    <option value="J">J</option>
+    <option value="K">K</option>
+    <option value="L">L</option>
+</select>
+<button onclick="listarPorGrupo()">Ver Grupo Selecionado</button>
+            <h2>Seleções</h2>
+            <button onclick="listarSelecoes()">Ver Seleções</button>
+            <div id="resultadoSelecoes"></div>
+        </section>
+
+        <section id="secao-partidas">
+            <h2>Partidas</h2>
+            <button onclick="listarPartidas()">Ver Partidas</button>
+            <div id="resultadoPartidas"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Desenvolvido por Thiago da Silva Scomparin</p>
+    </footer>
+
+    <script>
+        const enderecoServidor = 'localhost';
+        const porta = '3001';
+        async function listarPorGrupo() {
+    const grupo = document.getElementById('filtroGrupo').value;
+    if (!grupo) {
+        alert('Escolha um grupo primeiro!');
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://${enderecoServidor}:${porta}/selecoes/${grupo}`);
+        const data = await response.json();
+
+        if (data.sucesso && data.selecoes.length > 0) {
+            let tabela = '<table>';
+            tabela += '<tr><th>ID</th><th>Nome</th><th>Grupo</th><th>Bandeira</th></tr>';
+
+            data.selecoes.forEach(selecao => {
+                tabela += `<tr>
+                    <td>${selecao.id_selecao}</td>
+                    <td>${selecao.nome_selecao}</td>
+                    <td>${selecao.grupo}</td>
+                    <td><img src="${selecao.bandeira_url}" alt="Bandeira" width="50"></td>
+                </tr>`;
+            });
+
+            tabela += '</table>';
+            document.getElementById('resultadoSelecoes').innerHTML = tabela;
+        }
+    } catch (error) {
+        console.error('Erro ao listar grupo:', error);
+    }
+}
+         async function listarSelecoes() {
+            try {
+                const response = await fetch(`http://${enderecoServidor}:${porta}/selecoes`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.sucesso && data.selecoes.length > 0) {
+                    let tabela = '<table>';
+                    tabela += '<tr><th>ID</th><th>Nome</th><th>Grupo</th><th>Bandeira</th></tr>';
+
+                    data.selecoes.forEach(selecao => {
+
+                        tabela += `<tr>
+                            <td>${selecao.id_selecao}</td>
+                            <td>${selecao.nome_selecao}</td>
+                            <td>${selecao.grupo}</td>
+                            <td><img src="${selecao.bandeira_url}" alt="Bandeira" width="50"></td>
+                        </tr>`;
+                    });
+
+                    tabela += '</table>';
+                    document.getElementById('resultadoSelecoes').innerHTML = tabela;
+                }
+            } catch (error) {
+                console.error('Erro ao listar seleções:', error);
+            }
+        }
+
+        async function listarPartidas() {
+            try {
+                const response = await fetch(`http://${enderecoServidor}:${porta}/partidas`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.sucesso && data.partidas.length > 0) {
+                    let tabela = '<table>';
+                    tabela += '<tr><th>ID</th><th>Seleção da Casa</th><th>Seleção Visitante</th><th>Gols Da Casa</th><th>Gols Do Visitante</th><th>Data da Partida</th><th>Estádio</th></tr>';
+
+                    data.partidas.forEach(partida => {
+
+                        tabela += `<tr>
+                            <td>${partida.id_partida}</td>
+                            <td>${partida.time_casa}</td>
+                            <td>${partida.time_fora}</td>
+                            <td>${partida.gols_casa}</td>
+                            <td>${partida.gols_fora}</td>
+                            <td>${partida.data_partida}</td>
+                            <td>${partida.estadio}</td>
+                        </tr>`;
+                    });
+
+                    tabela += '</table>';
+                    document.getElementById('resultadoPartidas').innerHTML = tabela;
+                }
+            } catch (error) {
+                console.error('Erro ao listar partidas:', error);
+            }
+        }
+    </script>
+
+</body>
+</html>
