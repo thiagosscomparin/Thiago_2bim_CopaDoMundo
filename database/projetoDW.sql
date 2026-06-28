@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS selecao, partida;
+
 CREATE TABLE selecao (
     id_selecao SERIAL PRIMARY KEY,
     nome_selecao VARCHAR(50) NOT NULL,
@@ -14,10 +16,6 @@ CREATE TABLE partida (
     data_partida DATE,
     estadio VARCHAR(100)
 );
-
-SELECT COUNT(*) FROM partida;
-SELECT COUNT(*) FROM selecao;
-
 
 INSERT INTO selecao (nome_selecao, grupo, bandeira_url) VALUES
 ('México', 'A', 'https://flagcdn.com/w320/mx.png'),
@@ -69,89 +67,91 @@ INSERT INTO selecao (nome_selecao, grupo, bandeira_url) VALUES
 ('Gana', 'L', 'https://flagcdn.com/w320/gh.png'),
 ('Panamá', 'L', 'https://flagcdn.com/w320/pa.png');
 
-
 INSERT INTO partida (selecao_casa_id, selecao_fora_id, gols_casa, gols_fora, data_partida, estadio) VALUES
--- Grupo A 
-(1, 2, 2, 0, '2026-06-11', 'Estádio Azteca'),    
-(3, 4, 1, 1, '2026-06-11', 'Estádio Akron'),        
-(1, 3, 1, 0, '2026-06-17', 'Estádio Akron'),     
-(2, 4, 0, 2, '2026-06-17', 'Estádio Banorte'),       
-(1, 4, 2, 1, '2026-06-24', 'Estádio Azteca'),     
-(2, 3, 1, 1, '2026-06-24', 'Estádio Banorte'),      
--- Grupo B 
-(5, 7, 2, 0, '2026-06-12', 'BMO Field'),           
-(6, 8, 3, 1, '2026-06-12', 'Lumen Field'),           
-(5, 8, 1, 0, '2026-06-18', 'BC Place'),              
-(6, 7, 1, 1, '2026-06-18', 'Lumen Field'),          
-(5, 6, 2, 2, '2026-06-25', 'BMO Field'),           
-(7, 8, 1, 1, '2026-06-25', 'BC Place'),              
--- Grupo C 
-(9, 10, 1, 1, '2026-06-13', 'MetLife Stadium'),    
-(11, 12, 0, 1, '2026-06-13', 'Gillette Stadium'),    
-(9, 11, 3, 0, '2026-06-19', 'Lincoln Financial Field'), 
-(12, 10, 0, 1, '2026-06-19', 'Gillette Stadium'),  
-(9, 12, 2, 0, '2026-06-24', 'Hard Rock Stadium'),   
-(10, 11, 2, 1, '2026-06-24', 'Bank of America Stadium'), 
--- Grupo D 
-(13, 16, 2, 1, '2026-06-12', 'SoFi Stadium'),      
-(15, 14, 1, 2, '2026-06-12', 'Levi''s Stadium'),     
-(13, 15, 2, 0, '2026-06-18', 'Arrowhead Stadium'),   
-(16, 14, 1, 0, '2026-06-18', 'Levi''s Stadium'),   
-(13, 14, 3, 0, '2026-06-25', 'SoFi Stadium'),        
-(16, 15, 1, 1, '2026-06-25', 'Levi''s Stadium'),     
--- Grupo E 
-(17, 18, 7, 1, '2026-06-15', 'BC Place'),            
-(19, 20, 1, 1, '2026-06-15', 'Estádio Akron'),      
-(17, 19, 2, 1, '2026-06-21', 'Estádio Akron'),     
-(18, 20, 0, 2, '2026-06-21', 'BC Place'),           
-(18, 19, 1, 2, '2026-06-25', 'Lincoln Financial Field'),
-(17, 20, 3, 0, '2026-06-25', 'Estádio Azteca'),    
--- Grupo F 
-(21, 23, 2, 1, '2026-06-15', 'Seattle Field'),       
-(24, 22, 0, 4, '2026-06-21', 'El Gigante de Acero'), 
-(21, 22, 2, 2, '2026-06-21', 'Seattle Field'),       
-(23, 24, 3, 0, '2026-06-15', 'El Gigante de Acero'), 
-(21, 24, 4, 0, '2026-06-25', 'Seattle Field'),       
-(22, 23, 1, 0, '2026-06-25', 'El Gigante de Acero'), 
--- Grupo G 
-(25, 27, 1, 0, '2026-06-15', 'Vancouver Place'),     
-(28, 26, 1, 3, '2026-06-21', 'Vancouver Place'),    
-(25, 26, 2, 2, '2026-06-21', 'BC Place'),            
-(27, 28, 2, 0, '2026-06-15', 'BC Place'),            
-(25, 28, 3, 0, '2026-06-26', 'Vancouver Place'),    
-(26, 27, 1, 1, '2026-06-26', 'BC Place'),            
--- Grupo H 
-(29, 30, 0, 0, '2026-06-15', 'Mercedes-Benz Stadium'), 
-(31, 32, 1, 1, '2026-06-15', 'Hard Rock Stadium'), 
-(32, 30, 2, 2, '2026-06-21', 'Hard Rock Stadium'),   
-(29, 31, 3, 1, '2026-06-21', 'Mercedes-Benz Stadium'), 
-(29, 32, 2, 1, '2026-06-24', 'NRG Stadium'),       
-(30, 31, 1, 1, '2026-06-24', 'Levi''s Stadium'),     
--- Grupo I 
-(33, 35, 3, 0, '2026-06-16', 'Lincoln Financial Field'), 
-(36, 34, 2, 1, '2026-06-16', 'MetLife Stadium'),     
-(33, 36, 1, 1, '2026-06-22', 'MetLife Stadium'),     
-(35, 34, 0, 2, '2026-06-22', 'Lincoln Financial Field'), 
-(33, 34, 2, 0, '2026-06-26', 'Lincoln Financial Field'), 
-(36, 35, 1, 0, '2026-06-26', 'MetLife Stadium'),     
--- Grupo J 
-(37, 39, 1, 1, '2026-06-16', 'Estádio Akron'),       
-(40, 38, 1, 2, '2026-06-16', 'Estádio Banorte'),     
-(37, 40, 2, 0, '2026-06-22', 'Estádio Banorte'),     
-(39, 38, 1, 1, '2026-06-22', 'Estádio Akron'),       
-(37, 38, 2, 1, '2026-06-26', 'Estádio Akron'),       
-(39, 40, 3, 0, '2026-06-26', 'Estádio Banorte'),    
--- Grupo K 
-(41, 42, 1, 1, '2026-06-16', 'Gillette Stadium'),   
-(44, 43, 3, 1, '2026-06-16', 'AT&T Stadium'),        
-(41, 43, 2, 0, '2026-06-22', 'AT&T Stadium'),        
-(42, 44, 1, 2, '2026-06-22', 'Gillette Stadium'),    
-(41, 44, 1, 1, '2026-06-26', 'Gillette Stadium'),    
-(42, 43, 1, 0, '2026-06-26', 'AT&T Stadium'),        
--- Grupo L 
-(45, 46, 4, 2, '2026-06-17', 'AT&T Stadium'),        
-(47, 48, 1, 0, '2026-06-17', 'Children''s Mercy Park'), 
-(45, 47, 2, 0, '2026-06-23', 'Gillette Stadium'),    
-(46, 48, 3, 0, '2026-06-23', 'BMO Field'),           
-(45, 48, 4, 0, '2026-06-26', 'SoFi Stadium'),       
-(46, 47, 1, 1, '2026-06-26', 'Lumen Field');         
+-- Grupo A
+(1, 2, 2, 0, '2026-06-11', 'Estádio Azteca'),
+(3, 4, 2, 1, '2026-06-11', 'Estádio Akron'),
+(1, 3, 1, 0, '2026-06-17', 'Estádio Akron'),
+(2, 4, 1, 1, '2026-06-17', 'Estádio Banorte'),
+(1, 4, 3, 0, '2026-06-24', 'Estádio Azteca'),
+(2, 3, 1, 0, '2026-06-24', 'Estádio Banorte'),
+-- Grupo B
+(5, 7, 1, 1, '2026-06-12', 'BMO Field'),
+(6, 8, 1, 1, '2026-06-12', 'Lumen Field'),
+(5, 8, 6, 0, '2026-06-18', 'BC Place'),
+(6, 7, 4, 1, '2026-06-18', 'Lumen Field'),
+(5, 6, 1, 2, '2026-06-25', 'BMO Field'),
+(7, 8, 3, 1, '2026-06-25', 'BC Place'),
+-- Grupo C
+(9, 10, 1, 1, '2026-06-13', 'MetLife Stadium'),
+(11, 12, 0, 1, '2026-06-13', 'Gillette Stadium'),
+(9, 11, 3, 0, '2026-06-19', 'Lincoln Financial Field'),
+(12, 10, 0, 1, '2026-06-19', 'Gillette Stadium'),
+(9, 12, 3, 0, '2026-06-24', 'Hard Rock Stadium'),
+(10, 11, 4, 2, '2026-06-24', 'Bank of America Stadium'),
+-- Grupo D
+(13, 16, 4, 1, '2026-06-12', 'SoFi Stadium'),
+(15, 14, 2, 0, '2026-06-12', 'Levi''s Stadium'),
+(13, 15, 2, 0, '2026-06-18', 'Arrowhead Stadium'),
+(16, 14, 1, 0, '2026-06-18', 'Levi''s Stadium'),
+(13, 14, 2, 3, '2026-06-25', 'SoFi Stadium'),
+(16, 15, 0, 0, '2026-06-25', 'Levi''s Stadium'),
+-- Grupo E
+(17, 18, 7, 1, '2026-06-15', 'BC Place'),
+(19, 20, 1, 0, '2026-06-15', 'Estádio Akron'),
+(17, 19, 2, 1, '2026-06-21', 'Estádio Akron'),
+(18, 20, 0, 0, '2026-06-21', 'BC Place'),
+(18, 19, 0, 2, '2026-06-25', 'Lincoln Financial Field'),
+(17, 20, 1, 2, '2026-06-25', 'Estádio Azteca'),
+-- Grupo F
+(21, 23, 5, 1, '2026-06-15', 'Seattle Field'),
+(24, 22, 0, 4, '2026-06-21', 'El Gigante de Acero'),
+(21, 22, 2, 2, '2026-06-21', 'Seattle Field'),
+(23, 24, 5, 1, '2026-06-15', 'El Gigante de Acero'),
+(21, 24, 3, 1, '2026-06-25', 'Seattle Field'),
+(22, 23, 1, 1, '2026-06-25', 'El Gigante de Acero'),
+-- Grupo G
+(25, 27, 0, 0, '2026-06-15', 'Vancouver Place'),
+(28, 26, 1, 3, '2026-06-21', 'Vancouver Place'),
+(25, 26, 1, 1, '2026-06-21', 'BC Place'),
+(27, 28, 2, 2, '2026-06-15', 'BC Place'),
+(25, 28, 5, 1, '2026-06-26', 'Vancouver Place'),
+(26, 27, 1, 1, '2026-06-26', 'BC Place'),
+-- Grupo H
+(29, 30, 0, 0, '2026-06-15', 'Mercedes-Benz Stadium'),
+(31, 32, 1, 1, '2026-06-15', 'Hard Rock Stadium'),
+(32, 30, 2, 2, '2026-06-21', 'Hard Rock Stadium'),
+(29, 31, 4, 0, '2026-06-21', 'Mercedes-Benz Stadium'),
+(29, 32, 1, 0, '2026-06-24', 'NRG Stadium'),
+(30, 31, 0, 0, '2026-06-24', 'Levi''s Stadium'),
+-- Grupo I
+(33, 35, 3, 0, '2026-06-16', 'Lincoln Financial Field'),
+(36, 34, 3, 2, '2026-06-16', 'MetLife Stadium'),
+(33, 36, 4, 1, '2026-06-22', 'MetLife Stadium'),
+(35, 34, 0, 5, '2026-06-22', 'Lincoln Financial Field'),
+(33, 34, 3, 1, '2026-06-26', 'Lincoln Financial Field'),
+(36, 35, 4, 1, '2026-06-26', 'MetLife Stadium'),
+-- Grupo J
+(37, 39, 2, 0, '2026-06-16', 'Estádio Akron'),
+(40, 38, 1, 2, '2026-06-16', 'Estádio Banorte'),
+(37, 40, 2, 0, '2026-06-22', 'Estádio Banorte'),
+(39, 38, 1, 1, '2026-06-22', 'Estádio Akron'),
+(37, 38, 3, 0, '2026-06-26', 'Estádio Akron'),
+(39, 40, 3, 1, '2026-06-26', 'Estádio Banorte'),
+-- Grupo K
+(41, 42, 1, 1, '2026-06-16', 'Gillette Stadium'),
+(44, 43, 3, 1, '2026-06-16', 'AT&T Stadium'),
+(41, 43, 5, 0, '2026-06-22', 'AT&T Stadium'),
+(42, 44, 0, 1, '2026-06-22', 'Gillette Stadium'),
+(41, 44, 1, 1, '2026-06-26', 'Gillette Stadium'),
+(42, 43, 1, 0, '2026-06-26', 'AT&T Stadium'),
+-- Grupo L
+(45, 46, 4, 2, '2026-06-17', 'AT&T Stadium'),
+(47, 48, 1, 0, '2026-06-17', 'Children''s Mercy Park'),
+(45, 47, 0, 0, '2026-06-23', 'Gillette Stadium'),
+(46, 48, 1, 0, '2026-06-23', 'BMO Field'),
+(45, 48, 4, 2, '2026-06-26', 'SoFi Stadium'),
+(46, 47, 1, 1, '2026-06-26', 'Lumen Field');
+
+SELECT COUNT(*) FROM selecao;
+SELECT COUNT(*) FROM partida;
